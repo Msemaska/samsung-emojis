@@ -1,0 +1,65 @@
+{
+  "name": "samsung-emojis",
+  "version": "1.0.0",
+  "description": "Samsung One UI emoji library - a complete collection of Samsung emoji images with lookup utilities",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./css": "./dist/samsung-emojis.css",
+    "./react": {
+      "import": "./dist/react.mjs",
+      "require": "./dist/react.js",
+      "types": "./dist/react.d.ts"
+    },
+    "./data": "./dist/emojis.json",
+    "./images/*": "./samsung_emojis/*"
+  },
+  "files": [
+    "dist",
+    "samsung_emojis"
+  ],
+  "scripts": {
+    "build": "node scripts/build.js",
+    "build:manifest": "node scripts/generate-manifest.js",
+    "build:css": "node scripts/generate-css.js",
+    "build:types": "tsc --emitDeclarationOnly",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YOUR_USERNAME/samsung-emojis.git"
+  },
+  "keywords": [
+    "emoji",
+    "samsung",
+    "one-ui",
+    "emoticon",
+    "unicode",
+    "react",
+    "emoji-picker",
+    "emoji-skin"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/YOUR_USERNAME/samsung-emojis/issues"
+  },
+  "homepage": "https://github.com/YOUR_USERNAME/samsung-emojis#readme",
+  "devDependencies": {
+    "typescript": "^5.3.0"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  }
+}

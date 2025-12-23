@@ -1,0 +1,13 @@
+# Source files (not needed in npm package)
+src/
+scripts/
+tsconfig.json
+.gitignore
+
+# Development files
+.idea/
+.vscode/
+*.log
+coverage/
+
+# Keep dist/ and samsung_emojis/ for the package
