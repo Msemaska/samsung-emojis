@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Samsung Emojis Test</title>
+  <link rel="stylesheet" href="dist/samsung-emojis.css">
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; }
+    h2 { border-bottom: 1px solid #ccc; padding-bottom: 8px; }
+    .emoji-row { display: flex; align-items: center; gap: 10px; margin: 10px 0; }
+    .emoji-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    #output { background: #f5f5f5; padding: 15px; border-radius: 8px; margin: 10px 0; }
+    input { padding: 8px; width: 300px; font-size: 16px; }
+    button { padding: 8px 16px; font-size: 16px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Samsung Emojis Library Test</h1>
+
+  <h2>1. Direct Image Loading</h2>
+  <div class="emoji-row">
+    <img src="samsung_emojis/grinning-face_1f600.webp" class="samsung-emoji" alt="grinning">
+    <img src="samsung_emojis/fire_1f525.webp" class="samsung-emoji samsung-emoji--md" alt="fire">
+    <img src="samsung_emojis/rocket_1f680.webp" class="samsung-emoji samsung-emoji--lg" alt="rocket">
+    <img src="samsung_emojis/star-struck_1f929.webp" class="samsung-emoji samsung-emoji--xl" alt="star-struck">
+  </div>
+
+  <h2>2. JavaScript API Test</h2>
+  <div id="api-test">Loading...</div>
+
+  <h2>3. Search Test</h2>
+  <input type="text" id="search" placeholder="Search emojis (e.g., 'smile', 'cat', 'food')">
+  <button onclick="doSearch()">Search</button>
+  <div id="search-results" class="emoji-grid"></div>
+
+  <h2>4. Replace Emojis Test</h2>
+  <input type="text" id="text-input" placeholder="Type text with emojis: Hello 😀🔥🚀" value="Hello 😀 World 🔥 Let's go 🚀">
+  <button onclick="doReplace()">Replace</button>
+  <div id="output"></div>
+
+  <h2>5. Category: Smileys & Emotion (first 30)</h2>
+  <div id="smileys" class="emoji-grid"></div>
+
+  <script type="module">
+    import samsungEmojis from './dist/index.mjs';
+
+    // Make available globally for button handlers
+    window.samsungEmojis = samsungEmojis;
+
+    // Test 2: API Test
+    const grin = samsungEmojis.getByEmoji('😀');
+    const fire = samsungEmojis.getBySlug('fire');
+    document.getElementById('api-test').innerHTML = `
+      <p><strong>Total emojis:</strong> ${samsungEmojis.getCount()}</p>
+      <p><strong>getByEmoji('😀'):</strong> ${grin ? grin.name : 'NOT FOUND'}</p>
+      <p><strong>getBySlug('fire'):</strong> ${fire ? fire.name : 'NOT FOUND'}</p>
+      <p><strong>Categories:</strong> ${samsungEmojis.getCategories().join(', ')}</p>
+    `;
+
+    // Test 5: Load smileys
+    const smileys = samsungEmojis.getByCategory('Smileys & Emotion').slice(0, 30);
+    document.getElementById('smileys').innerHTML = smileys.map(e =>
+      `<img src="${e.file}" class="samsung-emoji samsung-emoji--lg" title="${e.name}" alt="${e.name}">`
+    ).join('');
+
+    // Search function
+    window.doSearch = function() {
+      const query = document.getElementById('search').value;
+      const results = samsungEmojis.search(query).slice(0, 50);
+      document.getElementById('search-results').innerHTML = results.map(e =>
+        `<img src="${e.file}" class="samsung-emoji samsung-emoji--lg" title="${e.name}" alt="${e.name}">`
+      ).join('') || '<p>No results</p>';
+    };
+
+    // Replace function
+    window.doReplace = function() {
+      const text = document.getElementById('text-input').value;
+      const html = samsungEmojis.replaceEmojis(text);
+      document.getElementById('output').innerHTML = html;
+    };
+
+    // Initial replace
+    window.doReplace();
+  </script>
+</body>
+</html>
